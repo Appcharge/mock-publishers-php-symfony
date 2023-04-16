@@ -1,0 +1,8 @@
+player_auth:
+    path: /auth
+    controller: App\Controller\Auth\AuthController::auth
+    methods: [POST]
+update_balance:
+    path: /updateBalance
+    controller: App\Controller\Player\PlayerController::updateBalance
+    methods: [POST]
