@@ -10,7 +10,6 @@ class PlayerUpdateRequest
     public DateTime $purchaseDateAndTimeUtc;
     public string $gameId;
     public string $playerId;
-    public string $authType;
     public string $bundleName;
     public string $bundleId;
     public string $sku;
@@ -26,7 +25,6 @@ class PlayerUpdateRequest
         DateTime $purchaseDateAndTimeUtc,
         string $gameId,
         string $playerId,
-        string $authType,
         string $bundleName,
         string $bundleId,
         string $sku,
@@ -41,7 +39,6 @@ class PlayerUpdateRequest
         $this->purchaseDateAndTimeUtc = $purchaseDateAndTimeUtc;
         $this->gameId = $gameId;
         $this->playerId = $playerId;
-        $this->authType = $authType;
         $this->bundleName = $bundleName;
         $this->bundleId = $bundleId;
         $this->sku = $sku;
@@ -61,7 +58,6 @@ class PlayerUpdateRequest
             new DateTime($data['purchaseDateAndTimeUtc']),
             $data['gameId'],
             $data['playerId'],
-            $data['authType'],
             $data['bundleName'],
             $data['bundleId'],
             $data['sku'],

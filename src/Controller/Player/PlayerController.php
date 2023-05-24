@@ -10,9 +10,17 @@ class PlayerController extends AbstractController
 {
     public function updateBalance(Request $request): JsonResponse
     {
-        $body = decrypt($request->getContent());
+        $requestBody = $request->getContent();
+        $headers = $request->headers->all();
 
-        $playerUpdate = PlayerUpdateRequest::from_json($body);
+        if (isset($headers['signature'])) {
+            $serializedJson = json_encode(json_decode($requestBody));
+            signPayload($headers['signature'][0], $serializedJson);
+        } else {
+            $requestBody = decrypt($requestBody);
+        }
+
+        $playerUpdate = PlayerUpdateRequest::from_json(json_decode($requestBody, true));
         $response = $this->json(new PlayerUpdateBalanceResponse("<PURCHASE-ID>"));
         return $response;
     }

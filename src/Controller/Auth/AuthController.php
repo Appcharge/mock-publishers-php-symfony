@@ -20,10 +20,17 @@ class AuthController extends AbstractController
     {
         global $FACEBOOK_APP_SECRET;
 
-        $body = decrypt($request->getContent());
-        $body = json_decode($body);
+        $requestBody = $request->getContent();
+        $headers = $request->headers->all();
+
+        if (isset($headers['signature'])) {
+            $serializedJson = json_encode(json_decode($requestBody));
+            signPayload($headers['signature'][0], $serializedJson);
+        } else {
+            $requestBody = decrypt($requestBody);
+        }
         
-        $auth_request = AuthenticationRequest::from_json($body);
+        $auth_request = AuthenticationRequest::from_json(json_decode($requestBody, true));
         $auth_method = $auth_request->authMethod;
 
         $auth_result = new AuthResult(false, '');
