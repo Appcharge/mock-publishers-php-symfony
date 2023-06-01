@@ -14,15 +14,12 @@
       return (object) ['T' => $t, 'V1' => $v1];
     }
 
-    function signPayload($expectedSignatureHeader, $data) {
-      $key = getenv('KEY');
-
+    function signPayload($expectedSignatureHeader, $data, $key) {
       $expectedSignature = parseSignature($expectedSignatureHeader);
       $dataBytes = utf8_encode("{$expectedSignature->T}.{$data}");
       $hmacBytes = hash_hmac('sha256', $dataBytes, $key, true);
       $signature = strtolower(bin2hex($hmacBytes));
-      if ($signature !== $expectedSignature->V1) {
-          throw new Exception("Signatures don't match");
-      }
-  }
+
+      return array('signature' => $signature, 'expectedSignature' => $expectedSignature->V1);
+    }
 ?>

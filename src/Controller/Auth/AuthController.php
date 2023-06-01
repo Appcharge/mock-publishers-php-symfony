@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Controller\Auth\Methods\facebook;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 
 global $FACEBOOK_APP_SECRET;
@@ -23,11 +24,17 @@ class AuthController extends AbstractController
         $requestBody = $request->getContent();
         $headers = $request->headers->all();
 
+        $iv = getenv('IV');
+        $key = getenv('KEY');
+
         if (isset($headers['signature'])) {
             $serializedJson = json_encode(json_decode($requestBody));
-            signPayload($headers['signature'][0], $serializedJson);
+            $result = signPayload($headers['signature'][0], $serializedJson, $key);
+            if ($result['signature'] !== $result['expectedSignature']) {
+                throw new \Exception("Signatures don't match");
+            }
         } else {
-            $requestBody = decrypt($requestBody);
+            $requestBody = decrypt($requestBody, $iv, $key);
         }
         
         $auth_request = AuthenticationRequest::from_json(json_decode($requestBody, true));
