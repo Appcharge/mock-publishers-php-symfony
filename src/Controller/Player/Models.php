@@ -13,7 +13,8 @@ class PlayerUpdateRequest
     public string $bundleName;
     public string $bundleId;
     public string $sku;
-    public string $priceInCents;
+    public int $priceInCents;
+    public float $priceInDollar;
     public string $currency;
     public string $action;
     public string $actionStatus;
@@ -28,7 +29,8 @@ class PlayerUpdateRequest
         string $bundleName,
         string $bundleId,
         string $sku,
-        string $priceInCents,
+        int $priceInCents,
+        float $priceInDollar,
         string $currency,
         string $action,
         string $actionStatus,
@@ -43,6 +45,7 @@ class PlayerUpdateRequest
         $this->bundleId = $bundleId;
         $this->sku = $sku;
         $this->priceInCents = $priceInCents;
+        $this->priceInDollar = $priceInDollar;
         $this->currency = $currency;
         $this->action = $action;
         $this->actionStatus = $actionStatus;
@@ -62,6 +65,7 @@ class PlayerUpdateRequest
             $data['bundleId'],
             $data['sku'],
             $data['priceInCents'],
+            $data['priceInDollar'],
             $data['currency'],
             $data['action'],
             $data['actionStatus'],
