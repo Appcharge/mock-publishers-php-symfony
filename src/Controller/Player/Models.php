@@ -10,11 +10,11 @@ class PlayerUpdateRequest
     public DateTime $purchaseDateAndTimeUtc;
     public string $gameId;
     public string $playerId;
-    public string $authType;
     public string $bundleName;
     public string $bundleId;
     public string $sku;
-    public string $priceInCents;
+    public int $priceInCents;
+    public float $priceInDollar;
     public string $currency;
     public string $action;
     public string $actionStatus;
@@ -26,11 +26,11 @@ class PlayerUpdateRequest
         DateTime $purchaseDateAndTimeUtc,
         string $gameId,
         string $playerId,
-        string $authType,
         string $bundleName,
         string $bundleId,
         string $sku,
-        string $priceInCents,
+        int $priceInCents,
+        float $priceInDollar,
         string $currency,
         string $action,
         string $actionStatus,
@@ -41,11 +41,11 @@ class PlayerUpdateRequest
         $this->purchaseDateAndTimeUtc = $purchaseDateAndTimeUtc;
         $this->gameId = $gameId;
         $this->playerId = $playerId;
-        $this->authType = $authType;
         $this->bundleName = $bundleName;
         $this->bundleId = $bundleId;
         $this->sku = $sku;
         $this->priceInCents = $priceInCents;
+        $this->priceInDollar = $priceInDollar;
         $this->currency = $currency;
         $this->action = $action;
         $this->actionStatus = $actionStatus;
@@ -61,11 +61,11 @@ class PlayerUpdateRequest
             new DateTime($data['purchaseDateAndTimeUtc']),
             $data['gameId'],
             $data['playerId'],
-            $data['authType'],
             $data['bundleName'],
             $data['bundleId'],
             $data['sku'],
             $data['priceInCents'],
+            $data['priceInDollar'],
             $data['currency'],
             $data['action'],
             $data['actionStatus'],
