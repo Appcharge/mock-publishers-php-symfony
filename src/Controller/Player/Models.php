@@ -16,6 +16,7 @@ class PlayerUpdateRequest
     public int $priceInCents;
     public float $priceInDollar;
     public string $currency;
+    public Price $price;
     public string $action;
     public string $actionStatus;
     public array $products;
@@ -31,6 +32,7 @@ class PlayerUpdateRequest
         string $sku,
         int $priceInCents,
         float $priceInDollar,
+        Price $price,
         string $currency,
         string $action,
         string $actionStatus,
@@ -47,6 +49,7 @@ class PlayerUpdateRequest
         $this->priceInCents = $priceInCents;
         $this->priceInDollar = $priceInDollar;
         $this->currency = $currency;
+        $this->price = $price;
         $this->action = $action;
         $this->actionStatus = $actionStatus;
         $this->products = $products;
@@ -55,6 +58,8 @@ class PlayerUpdateRequest
 
     public static function from_json($data): self
     {
+        $priceData = $data['price'];
+        $price = new Price($priceData['subTotal'], $priceData['tax']);
 
         return new self(
             $data['appChargePaymentId'],
@@ -66,6 +71,7 @@ class PlayerUpdateRequest
             $data['sku'],
             $data['priceInCents'],
             $data['priceInDollar'],
+            $price,
             $data['currency'],
             $data['action'],
             $data['actionStatus'],
@@ -90,6 +96,19 @@ class Product
         $this->name = $name;
     }
 }
+
+class Price
+{
+    public float $subTotal;
+    public float $tax;
+
+    public function __construct(float $subTotal, float $tax)
+    {
+        $this->subTotal = $subTotal;
+        $this->tax = $tax;
+    }
+}
+
 
 class PlayerUpdateBalanceResponse {
     public string $publisherPurchaseId;
