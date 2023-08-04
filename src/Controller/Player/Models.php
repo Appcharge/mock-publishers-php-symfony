@@ -16,11 +16,11 @@ class PlayerUpdateRequest
     public int $priceInCents;
     public float $priceInDollar;
     public string $currency;
-    public Price $price;
+    public float $tax;
+    public float $subTotal;
     public string $action;
     public string $actionStatus;
     public array $products;
-    public string $publisherToken;
 
     public function __construct(
         string $appChargePaymentId,
@@ -32,12 +32,12 @@ class PlayerUpdateRequest
         string $sku,
         int $priceInCents,
         float $priceInDollar,
-        Price $price,
+        float $tax,
+        float $subTotal,
         string $currency,
         string $action,
         string $actionStatus,
         array $products,
-        string $publisherToken
     ) {
         $this->appChargePaymentId = $appChargePaymentId;
         $this->purchaseDateAndTimeUtc = $purchaseDateAndTimeUtc;
@@ -49,18 +49,15 @@ class PlayerUpdateRequest
         $this->priceInCents = $priceInCents;
         $this->priceInDollar = $priceInDollar;
         $this->currency = $currency;
-        $this->price = $price;
+        $this->tax = $tax;
+        $this->subTotal = $subTotal;
         $this->action = $action;
         $this->actionStatus = $actionStatus;
         $this->products = $products;
-        $this->publisherToken = $publisherToken;
     }
 
     public static function from_json($data): self
     {
-        $priceData = $data['price'];
-        $price = new Price($priceData['subTotal'], $priceData['tax']);
-
         return new self(
             $data['appChargePaymentId'],
             new DateTime($data['purchaseDateAndTimeUtc']),
@@ -71,14 +68,14 @@ class PlayerUpdateRequest
             $data['sku'],
             $data['priceInCents'],
             $data['priceInDollar'],
-            $price,
+            $data['tax'],
+            $data['subTotal'],
             $data['currency'],
             $data['action'],
             $data['actionStatus'],
             array_map(function ($product_data) {
                 return new Product($product_data['amount'], $product_data['sku'], $product_data['name']);
             }, $data['products']),
-            $data['publisherToken']
         );
     }
 }
@@ -94,18 +91,6 @@ class Product
         $this->amount = $amount;
         $this->sku = $sku;
         $this->name = $name;
-    }
-}
-
-class Price
-{
-    public float $subTotal;
-    public float $tax;
-
-    public function __construct(float $subTotal, float $tax)
-    {
-        $this->subTotal = $subTotal;
-        $this->tax = $tax;
     }
 }
 

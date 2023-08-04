@@ -12,6 +12,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # Copy the application files to the container
 COPY . /app
 
+# install php-zip
+RUN apt-get update
+RUN apt-get install libzip-dev -y
+RUN docker-php-ext-configure zip \
+  && docker-php-ext-install zip
+
 # Install GuzzleHttp library
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer require symfony/flex
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer require guzzlehttp/guzzle:^7.0

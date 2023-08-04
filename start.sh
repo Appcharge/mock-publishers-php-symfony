@@ -6,11 +6,6 @@ if [[ -z "$KEY" ]]; then
   exit 1
 fi
 
-if [[ -z "$IV" ]]; then
-  echo "ERROR: IV environment variable not set."
-  exit 1
-fi
-
 if [[ -z "$FACEBOOK_APP_SECRET" ]]; then
   echo "ERROR: FACEBOOK_APP_SECRET environment variable not set."
   exit 1

@@ -14,17 +14,12 @@ class PlayerController extends AbstractController
         $requestBody = $request->getContent();
         $headers = $request->headers->all();
 
-        $iv = getenv('IV');
         $key = getenv('KEY');
 
-        if (isset($headers['signature'])) {
-            $serializedJson = json_encode(json_decode($requestBody));
-            $result = signPayload($headers['signature'][0], $serializedJson, $key);
-            if ($result['signature'] !== $result['expectedSignature']) {
-                throw new \Exception("Signatures don't match");
-            }
-        } else {
-            $requestBody = decrypt($requestBody, $iv, $key);
+        $serializedJson = json_encode(json_decode($requestBody));
+        $result = signPayload($headers['signature'][0], $serializedJson, $key);
+        if ($result['signature'] !== $result['expectedSignature']) {
+            throw new \Exception("Signatures don't match");
         }
 
         $playerUpdate = PlayerUpdateRequest::from_json(json_decode($requestBody, true));
