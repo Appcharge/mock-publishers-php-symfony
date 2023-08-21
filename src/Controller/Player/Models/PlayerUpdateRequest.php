@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Player;
-use DateTime;
+namespace App\Controller\Player\Models;
 
+use DateTime;
 
 class PlayerUpdateRequest
 {
@@ -79,30 +79,3 @@ class PlayerUpdateRequest
         );
     }
 }
-
-class Product
-{
-    public int $amount;
-    public string $sku;
-    public string $name;
-
-    public function __construct(int $amount, string $sku, string $name)
-    {
-        $this->amount = $amount;
-        $this->sku = $sku;
-        $this->name = $name;
-    }
-}
-
-
-class PlayerUpdateBalanceResponse {
-    public string $publisherPurchaseId;
-
-    public function __construct($publisherPurchaseId) {
-        $this->publisherPurchaseId = $publisherPurchaseId;
-    }
-
-}
-
-
-?>

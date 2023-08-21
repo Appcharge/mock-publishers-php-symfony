@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Test\\Auth\\AuthControllerTest::testAuthSuccess":8,"App\\Test\\AuthControllerTest::testAuthSuccess":8},"times":{"App\\Test\\Auth\\AuthControllerTest::testAuthSuccess":0.05,"App\\Test\\AuthControllerTest::testAuthSuccess":0.037}}
